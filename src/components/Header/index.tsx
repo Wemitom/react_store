@@ -10,7 +10,7 @@ const Header = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <header className="border-b">
+    <header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
       <ul className="relative flex flex-row items-center gap-3 py-6">
         <li className="ml-16 cursor-pointer">Home</li>
         <li className="cursor-pointer">Categories</li>
