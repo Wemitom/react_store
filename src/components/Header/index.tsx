@@ -6,7 +6,7 @@ import { classNames } from 'utils';
 
 import SearchBar from './SearchBar';
 
-const Header = () => {
+const Header = ({ setSearch }: { setSearch: (value: string) => void }) => {
   const [show, setShow] = useState(false);
 
   return (
@@ -31,7 +31,7 @@ const Header = () => {
               : 'hidden sm:inline'
           )}
         >
-          <SearchBar />
+          <SearchBar setSearch={setSearch} />
         </li>
       </ul>
     </header>

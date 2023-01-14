@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'store';
-import { addToCart, removeOneItem } from 'store/cartSlice';
+import { addToCart, changeCount } from 'store/cartSlice';
 
 type Categories =
   | 'electronics'
@@ -15,6 +15,35 @@ export type ProductType = {
   price: number;
   image: string;
   category: Categories;
+};
+
+const ChangeAmtBtn = ({
+  product,
+  add = false
+}: {
+  product: ProductType;
+  add?: boolean;
+}) => {
+  const dispatch = useDispatch();
+  const count = useSelector(
+    (state: RootState) =>
+      state.cart.items.filter((item) => item.item.id === product.id)[0].count
+  );
+
+  return (
+    <div className="flex w-2/12 justify-center align-middle">
+      <button
+        onClick={() =>
+          add
+            ? dispatch(changeCount({ item: product, count: count + 1 }))
+            : dispatch(changeCount({ item: product, count: count - 1 }))
+        }
+        className="text-3xl hover:text-black/60 active:text-2xl "
+      >
+        {add ? '+' : '-'}
+      </button>
+    </div>
+  );
 };
 
 const Product = ({ id, title, price, image, category }: ProductType) => {
@@ -51,8 +80,11 @@ const Product = ({ id, title, price, image, category }: ProductType) => {
             onClick={() =>
               dispatch(
                 addToCart({
-                  item: { id, title, price, image, category },
-                  count: 1
+                  id,
+                  title,
+                  price,
+                  image,
+                  category
                 })
               )
             }
@@ -61,40 +93,22 @@ const Product = ({ id, title, price, image, category }: ProductType) => {
           </button>
         ) : (
           <div className="flex w-3/4 flex-row justify-center gap-3">
-            <button
-              onClick={() =>
-                dispatch(
-                  removeOneItem({
-                    id,
-                    title,
-                    price,
-                    image,
-                    category
-                  })
-                )
-              }
-              className="text-3xl"
-            >
-              -
-            </button>
+            <ChangeAmtBtn product={{ id, title, price, image, category }} />
             <input
               type="number"
               className="w-8/12 appearance-none text-center"
-              value={items.count}
-            />
-            <button
-              onClick={() =>
+              min={1}
+              onChange={(e) =>
                 dispatch(
-                  addToCart({
+                  changeCount({
                     item: { id, title, price, image, category },
-                    count: 1
+                    count: +e.target.value
                   })
                 )
               }
-              className="text-3xl"
-            >
-              +
-            </button>
+              value={items?.count || 0}
+            />
+            <ChangeAmtBtn product={{ id, title, price, image, category }} add />
           </div>
         )}
       </div>
