@@ -7,7 +7,7 @@
     "name": "Wemitom"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "serve": "vite preview",
     "test": "jest",

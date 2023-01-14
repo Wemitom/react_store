@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import '../main.css';
 
+import { Route, Routes } from 'react-router-dom';
+
 import Header from './Header';
 import Products from './Products';
 
@@ -10,7 +12,9 @@ function App() {
   return (
     <div className="bg-white">
       <Header setSearch={setSearch} />
-      <Products search={search} />
+      <Routes>
+        <Route path="" element={<Products search={search} />} />
+      </Routes>
     </div>
   );
 }
