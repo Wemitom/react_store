@@ -30,7 +30,13 @@ export const cartSlice = createSlice({
       action: PayloadAction<{ item: ProductType; count: number }>
     ) => {
       if (action.payload.count === 0) {
-        removeFromCart(action.payload.item);
+        if (
+          state.items.find((item) => item.item.id === action.payload.item.id)
+        ) {
+          state.items = state.items.filter(
+            (item) => item.item.id !== action.payload.item.id
+          );
+        }
       } else if (action.payload.count > 0) {
         if (
           state.items.find((item) => item.item.id === action.payload.item.id)
@@ -44,17 +50,10 @@ export const cartSlice = createSlice({
           });
         }
       }
-    },
-    removeFromCart: (state: CartState, action: PayloadAction<ProductType>) => {
-      if (state.items.find((item) => item.item.id === action.payload.id)) {
-        state.items = state.items.filter(
-          (item) => item.item.id !== action.payload.id
-        );
-      }
     }
   }
 });
 
-export const { addToCart, changeCount, removeFromCart } = cartSlice.actions;
+export const { addToCart, changeCount } = cartSlice.actions;
 
 export default cartSlice.reducer;
