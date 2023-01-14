@@ -25,11 +25,14 @@ const Products = ({ search }: { search: string }) => {
     return (
       <div className="flex flex-wrap justify-center gap-x-24 gap-y-3 p-12">
         {data
-          .filter((product: ProductType) =>
-            search !== ''
-              ? product.title.toLowerCase().startsWith(search.toLowerCase())
-              : true
-          )
+          .filter((product: ProductType) => {
+            const searchRegex = new RegExp(`.*${search.toLowerCase()}.*`, 'g');
+
+            return search !== ''
+              ? [...product.title.toLowerCase().matchAll(searchRegex)].length >
+                  0
+              : true;
+          })
           .map((product) => (
             <Product
               key={product.id}
