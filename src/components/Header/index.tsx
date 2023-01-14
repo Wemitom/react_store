@@ -2,17 +2,23 @@ import { useState } from 'react';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { HomeIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { RootState } from 'store';
 import { classNames } from 'utils';
 
 import SearchBar from './SearchBar';
 
 const Header = ({ setSearch }: { setSearch: (value: string) => void }) => {
   const [show, setShow] = useState(false);
+
+  const cartCount = useSelector((state: RootState) =>
+    state.cart.items.reduce((count, item) => count + item.count, 0)
+  );
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  console.log(pathname);
 
   return (
     <header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
@@ -23,11 +29,16 @@ const Header = ({ setSearch }: { setSearch: (value: string) => void }) => {
         </li>
         <li
           className={classNames(
-            'ml-3 flex w-10 cursor-pointer flex-col items-center text-center sm:ml-6',
+            'ml-3 flex w-10 cursor-pointer flex-col items-center text-center sm:ml-6 relative',
             pathname !== '/cart' ? '' : 'hidden'
           )}
           onClick={() => navigate('cart')}
         >
+          {cartCount === 1 && (
+            <div className="absolute -top-3 -right-3 flex h-5 w-5 justify-center rounded-full bg-red-600 align-middle text-sm text-white">
+              {cartCount}
+            </div>
+          )}
           <ShoppingCartIcon className="h-8 w-8" />
           <p className=" hidden sm:block">Cart</p>
         </li>
