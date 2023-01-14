@@ -34,7 +34,7 @@ const Header = ({ setSearch }: { setSearch: (value: string) => void }) => {
           )}
           onClick={() => navigate('cart')}
         >
-          {cartCount === 1 && (
+          {cartCount !== 0 && (
             <div className="absolute -top-3 -right-3 flex h-5 w-5 justify-center rounded-full bg-red-600 align-middle text-sm text-white">
               {cartCount}
             </div>
