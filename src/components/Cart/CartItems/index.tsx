@@ -1,20 +1,22 @@
-import { useState } from 'react';
-
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'store';
+import { changeCount } from 'store/cartSlice';
 
 import CartItem from '../CartItem';
 
-const CartItems = () => {
+const CartItems = ({
+  chosenItems,
+  setChosenItems
+}: {
+  chosenItems: number[];
+  setChosenItems: (value: number[]) => void;
+}) => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
-
-  const [chosenItems, setChosenItems] = useState(
-    cartItems.map((cartItem) => cartItem.item.id)
-  );
+  const dispatch = useDispatch();
 
   return (
-    <div className="w-full sm:w-8/12">
+    <div className="w-full">
       <div role="toolbar" className="my-6 flex gap-x-8 border-b pb-3">
         <div>
           <input
@@ -22,19 +24,17 @@ const CartItems = () => {
             name="chooseAll"
             className="h-4 w-4"
             checked={(() => {
-              const sortedChosen = chosenItems.sort();
+              const sortedChosen = [...chosenItems].sort();
+              const sortedCart = [
+                ...cartItems.map((cartItem) => cartItem.item.id)
+              ].sort();
 
               return (
                 cartItems.length === chosenItems.length &&
-                cartItems
-                  .sort()
-                  .every(
-                    (val, index) => val.item.id === sortedChosen.sort()[index]
-                  )
+                sortedCart.every((val, index) => val === sortedChosen[index])
               );
             })()}
             onChange={(e) => {
-              console.log(e.target.checked);
               if (!e.target.checked) {
                 setChosenItems([]);
               } else {
@@ -47,9 +47,22 @@ const CartItems = () => {
           </label>
         </div>
 
-        <span role="button" className="text-red-600">
-          Delete chosen
-        </span>
+        {chosenItems.length ? (
+          <span
+            role="button"
+            className="text-red-600"
+            onClick={() =>
+              chosenItems.forEach((chosenItem) => {
+                setChosenItems([
+                  ...chosenItems.filter((id) => id !== chosenItem)
+                ]);
+                dispatch(changeCount({ id: chosenItem, count: 0 }));
+              })
+            }
+          >
+            Delete chosen
+          </span>
+        ) : undefined}
       </div>
       {cartItems.map((cartItem) => (
         <CartItem
