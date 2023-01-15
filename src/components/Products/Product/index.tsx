@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { addToCart, changeCount } from 'store/cartSlice';
 
-type Categories =
+export type Categories =
   | 'electronics'
   | 'jewelery'
   | "men's clothing"
@@ -35,8 +35,8 @@ const ChangeAmtBtn = ({
       <button
         onClick={() =>
           add
-            ? dispatch(changeCount({ item: product, count: count + 1 }))
-            : dispatch(changeCount({ item: product, count: count - 1 }))
+            ? dispatch(changeCount({ id: product.id, count: count + 1 }))
+            : dispatch(changeCount({ id: product.id, count: count - 1 }))
         }
         className="text-3xl hover:text-black/60 active:text-2xl "
       >
@@ -101,7 +101,7 @@ const Product = ({ id, title, price, image, category }: ProductType) => {
               onChange={(e) =>
                 dispatch(
                   changeCount({
-                    item: { id, title, price, image, category },
+                    id,
                     count: +e.target.value
                   })
                 )

@@ -27,22 +27,18 @@ export const cartSlice = createSlice({
     },
     changeCount: (
       state: CartState,
-      action: PayloadAction<{ item: ProductType; count: number }>
+      action: PayloadAction<{ id: number; count: number }>
     ) => {
       if (action.payload.count === 0) {
-        if (
-          state.items.find((item) => item.item.id === action.payload.item.id)
-        ) {
+        if (state.items.find((item) => item.item.id === action.payload.id)) {
           state.items = state.items.filter(
-            (item) => item.item.id !== action.payload.item.id
+            (item) => item.item.id !== action.payload.id
           );
         }
       } else if (action.payload.count > 0) {
-        if (
-          state.items.find((item) => item.item.id === action.payload.item.id)
-        ) {
+        if (state.items.find((item) => item.item.id === action.payload.id)) {
           state.items = state.items.map((item) => {
-            if (item.item.id === action.payload.item.id) {
+            if (item.item.id === action.payload.id) {
               item.count = action.payload.count;
             }
 

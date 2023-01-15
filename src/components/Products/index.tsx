@@ -23,7 +23,7 @@ const Products = ({ search }: { search: string }) => {
     );
   } else if (data && isSuccess) {
     return (
-      <div className="flex flex-wrap justify-center gap-x-24 gap-y-3 p-12">
+      <section className="flex flex-wrap justify-center gap-x-24 gap-y-3 p-12">
         {data
           .filter((product: ProductType) => {
             const searchRegex = new RegExp(`.*${search.toLowerCase()}.*`, 'g');
@@ -43,7 +43,7 @@ const Products = ({ search }: { search: string }) => {
               category={product.category}
             />
           ))}
-      </div>
+      </section>
     );
   } else {
     return <></>;

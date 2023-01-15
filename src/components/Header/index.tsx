@@ -23,8 +23,11 @@ const Header = ({ setSearch }: { setSearch: (value: string) => void }) => {
   return (
     <header className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
       <ul className="relative flex flex-row items-center justify-between gap-3 py-6">
-        <li className="ml-12 flex cursor-pointer flex-col items-center sm:ml-16">
-          <HomeIcon className="h-8 w-8" onClick={() => navigate('/')} />
+        <li
+          className="ml-12 flex cursor-pointer flex-col items-center sm:ml-16"
+          onClick={() => navigate('/')}
+        >
+          <HomeIcon className="h-8 w-8" />
           <p className=" hidden sm:block">Home</p>
         </li>
         <li
