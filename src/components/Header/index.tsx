@@ -33,7 +33,7 @@ const Header = ({ setSearch }: { setSearch: (value: string) => void }) => {
         <li
           className={classNames(
             'ml-3 flex w-10 cursor-pointer flex-col items-center text-center sm:ml-6 relative',
-            pathname !== '/cart' ? '' : 'hidden'
+            pathname.startsWith('/cart') ? 'hidden' : ''
           )}
           onClick={() => navigate('cart')}
         >

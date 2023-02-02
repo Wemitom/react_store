@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { RootState } from 'store';
 import { classNames } from 'utils';
@@ -16,6 +17,8 @@ const Cart = () => {
   const [chosenItemsId, setChosenItemsId] = useState(
     cartItems.map((cartItem) => cartItem.item.id)
   );
+
+  const navigate = useNavigate();
 
   const chosenItems = cartItems.filter((cartItem) =>
     chosenItemsId.includes(cartItem.item.id)
@@ -59,10 +62,17 @@ const Cart = () => {
                 className={classNames(
                   'h-12 w-11/12 rounded-md transition-colors duration-200',
                   chosenItemsId.length
-                    ? 'bg-green-600 text-white cursor-pointer hover:bg-green-700'
+                    ? 'bg-accent text-white cursor-pointer hover:bg-accent/90'
                     : 'bg-slate-300 text-slate-500 cursor-default'
                 )}
-                disabled={!!chosenItemsId.length}
+                disabled={!chosenItemsId.length}
+                onClick={() =>
+                  navigate('order', {
+                    state: {
+                      orderedItems: chosenItems
+                    }
+                  })
+                }
               >
                 Order selected items
               </button>

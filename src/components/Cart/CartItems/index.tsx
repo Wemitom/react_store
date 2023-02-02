@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { changeCount } from 'store/cartSlice';
 
-import CartItem from '../CartItem';
+import CartItem from './CartItem';
 
 const CartItems = ({
   chosenItems,

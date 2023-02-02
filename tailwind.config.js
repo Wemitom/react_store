@@ -6,6 +6,9 @@ module.exports = {
     extend: {
       colors: {
         accent: '#A50104'
+      },
+      transitionProperty: {
+        visibility: 'visibility'
       }
     }
   },

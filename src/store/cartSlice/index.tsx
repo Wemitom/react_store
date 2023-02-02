@@ -3,13 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { ProductType } from 'components/Products/Product';
 
-type CartItem = {
+export type CartItemType = {
   item: ProductType;
   count: number;
 };
 
 type CartState = {
-  items: CartItem[];
+  items: CartItemType[];
 };
 
 const initialState: CartState = {
